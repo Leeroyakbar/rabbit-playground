@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    options {
+            // Ini akan menghilangkan proses checkout otomatis di awal
+            skipDefaultCheckout()
+        }
 
     stages {
         stage('Checkout SCM') {
