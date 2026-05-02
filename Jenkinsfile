@@ -35,7 +35,7 @@ pipeline {
             steps {
                 sh 'docker stop rabbit-app-container || true'
                 sh 'docker rm rabbit-app-container || true'
-                sh 'docker run -d --name rabbit-app-container --network rabbit-nw -e SPRING_RABBITMQ_HOST=rabbit-neuron -p 8081:8080 rabbit-app:latest''
+                sh 'docker run -d --name rabbit-app-container --network rabbit-nw -e SPRING_RABBITMQ_HOST=rabbit-neuron -p 8081:8080 rabbit-app:latest'
             }
         }
     }
