@@ -6,22 +6,18 @@ pipeline {
             agent any
             steps {
                 checkout scm
-                echo 'Kode berhasil diambil!'
             }
         }
 
         stage('Code Build') {
             agent {
                 docker {
-                    image 'maven:3.8.5-openjdk-17-slim'
+                    image 'maven:3.8.5-openjdk-17'
                     args '-v $HOME/.m2:/var/maven/.m2'
                 }
             }
             steps {
-                echo 'Sedang mengompilasi kode Java...'
-                // Perintah asli Maven untuk membuat file .jar
                 sh 'mvn clean package -DskipTests'
-                // simpan hasil agar bisa dipakai di stage selanjutnya
                 stash name: 'app-jar', includes: 'target/*.jar'
             }
         }
@@ -30,9 +26,16 @@ pipeline {
             agent any
             steps {
                 unstash 'app-jar'
-                echo 'Sedang membuat Docker image...'
                 sh 'docker build -t rabbit-app:latest .'
-                echo 'Docker image berhasil dibuat!'
+            }
+        }
+
+        stage('Deploy') {
+            agent any
+            steps {
+                sh 'docker stop rabbit-app-container || true'
+                sh 'docker rm rabbit-app-container || true'
+                sh 'docker run -d --name rabbit-app-container -p 8081:8080 rabbit-app:latest'
             }
         }
     }
