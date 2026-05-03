@@ -33,9 +33,12 @@ pipeline {
         stage('Deploy') {
             agent any
             steps {
-                sh 'docker stop rabbit-app-container || true'
-                sh 'docker rm rabbit-app-container || true'
-                sh 'docker run -d --name rabbit-app-container --network rabbit-nw -e SPRING_RABBITMQ_HOST=rabbit-neuron -p 8081:8080 rabbit-app:latest'
+                // 1. Ambil kembali file .jar yang sudah disimpan sebelumnya
+                unstash 'app-jar'
+
+                // 2. Jalankan orkestrasi menggunakan Docker Compose
+                // --build memaksa Docker membangun ulang image jika ada perubahan file (seperti .jar baru)
+                sh 'docker-compose up -d --build'
             }
         }
     }

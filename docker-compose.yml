@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  # Service 1: Antrian Pesan
+  message-broker:
+    image: rabbitmq:4-management
+    ports:
+      - "5672:5672"   # Port untuk koneksi aplikasi
+      - "15672:15672" # Port untuk Dashboard (akses via browser)
+
+  # Service 2: Aplikasi Spring Boot
+  rabbit-app:
+    build: .          # Mencari Dockerfile di folder saat ini
+    ports:
+      - "8081:8080"   # Akses aplikasi dari localhost:8081
+    depends_on:
+      - message-broker
+    environment:
+      - SPRING_RABBITMQ_HOST=message-broker
