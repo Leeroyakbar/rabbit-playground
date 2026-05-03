@@ -16,6 +16,6 @@ public class MessageController {
     @GetMapping("/send")
     public ResponseEntity<String> sendMessage(@RequestParam("message") String message) {
         producer.sendMessage(message);
-        return ResponseEntity.ok("Message sent successfully");
+        return ResponseEntity.ok("Message sent successfully.");
     }
 }
