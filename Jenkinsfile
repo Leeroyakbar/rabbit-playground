@@ -36,7 +36,7 @@ pipeline {
                 // 1. Ambil kembali file .jar yang sudah disimpan sebelumnya
                 unstash 'app-jar'
 
-                // 2. Jalankan orkestrasi menggunakan Docker Compose
+                // 2. Jalankan orkestrasi menggunakan Docker Compose c
                 // --build memaksa Docker membangun ulang image jika ada perubahan file (seperti .jar baru)
                 sh 'docker compose up -d --build'
             }
