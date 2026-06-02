@@ -38,7 +38,7 @@ pipeline {
 
                 // 2. Jalankan orkestrasi menggunakan Docker Compose
                 // --build memaksa Docker membangun ulang image jika ada perubahan file (seperti .jar baru)
-                sh 'docker-compose up -d --build'
+                sh 'docker compose up -d --build'
             }
         }
     }
